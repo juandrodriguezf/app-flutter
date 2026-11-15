@@ -162,7 +162,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 52,
                 child: FilledButton(
                   onPressed: _submit,
-                  child: Text('Ingresar', style: textTheme.titleMedium),
+                  child: Text(
+                    'Ingresar',
+                    style: textTheme.titleMedium?.copyWith(
+                      color: scheme.onPrimary,
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 24),

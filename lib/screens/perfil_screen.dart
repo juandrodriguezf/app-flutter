@@ -276,6 +276,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
                   child: Text(
                     'Editar perfil',
                     style: theme.textTheme.titleMedium?.copyWith(
+                      color: scheme.onPrimary,
                       fontWeight: FontWeight.w800,
                       letterSpacing: 1,
                     ),
