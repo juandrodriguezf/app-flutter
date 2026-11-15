@@ -72,4 +72,31 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Explorar'), findsOneWidget);
   });
+
+  testWidgets('abre las resenas y elimina una propia', (tester) async {
+    await _login(tester);
+
+    await tester.tap(find.byTooltip('Info').first);
+    await tester.pumpAndSettle();
+
+    await tester.ensureVisible(find.text('Ver reseñas (4)'));
+    await tester.tap(find.text('Ver reseñas (4)'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Escribir una reseña'), findsOneWidget);
+    expect(find.text('Todas'), findsOneWidget);
+    expect(find.textContaining('EarlyAdopter'), findsOneWidget);
+
+    await tester.ensureVisible(find.byTooltip('Opciones de la reseña'));
+    await tester.tap(find.byTooltip('Opciones de la reseña'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Eliminar'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('¿Eliminar esta reseña?'), findsOneWidget);
+    await tester.tap(find.text('Eliminar'));
+    await tester.pumpAndSettle();
+
+    expect(find.textContaining('EarlyAdopter'), findsNothing);
+  });
 }
