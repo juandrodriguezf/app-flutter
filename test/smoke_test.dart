@@ -50,4 +50,26 @@ void main() {
     expect(find.text('3 reseñas encontradas'), findsOneWidget);
     expect(find.textContaining('TechWizard92'), findsOneWidget);
   });
+
+  testWidgets('abre el detalle y permite comparar', (tester) async {
+    await _login(tester);
+
+    await tester.tap(find.byTooltip('Info').first);
+    await tester.pumpAndSettle();
+
+    expect(find.text('Especificaciones'), findsOneWidget);
+    expect(find.text('Precio'), findsOneWidget);
+    expect(find.textContaining('RTX 5060'), findsOneWidget);
+    expect(find.text('Ver reseñas (4)'), findsOneWidget);
+
+    await tester.ensureVisible(find.text('Comparar'));
+    await tester.tap(find.text('Comparar'));
+    await tester.pump();
+    expect(find.text('Quitar de comparación'), findsOneWidget);
+
+    await tester.ensureVisible(find.byTooltip('Volver'));
+    await tester.tap(find.byTooltip('Volver'));
+    await tester.pumpAndSettle();
+    expect(find.text('Explorar'), findsOneWidget);
+  });
 }

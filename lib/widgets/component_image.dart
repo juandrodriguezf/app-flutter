@@ -7,12 +7,14 @@ class ComponentImage extends StatelessWidget {
     this.fit = BoxFit.contain,
     this.width,
     this.height,
+    this.errorIconSize = 28,
   });
 
   final String asset;
   final BoxFit fit;
   final double? width;
   final double? height;
+  final double errorIconSize;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class ComponentImage extends StatelessWidget {
           child: Center(
             child: Icon(
               Icons.image_not_supported_outlined,
-              size: 28,
+              size: errorIconSize,
               color: scheme.outline,
             ),
           ),
