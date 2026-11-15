@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 
+import '../data/sample_data.dart';
 import '../models/componente.dart';
 import '../state/app_state.dart';
 import '../widgets/component_image.dart';
@@ -18,7 +19,9 @@ class DetalleScreen extends StatelessWidget {
     final appState = AppStateScope.of(context);
     final isComparing = appState.isComparing(componente.id);
     final canCompare = isComparing || appState.comparisonIds.length < 3;
-    final total = componente.totalResenas;
+    final visibles = resenasVisibles(componente.id, appState.hiddenReviewIds);
+    final total = visibles.length;
+    final promedio = promedioDeResenas(visibles);
     final textoResenas = total == 1 ? '1 reseña' : '$total reseñas';
 
     return Scaffold(
@@ -108,12 +111,12 @@ class DetalleScreen extends StatelessWidget {
                     Row(
                       children: [
                         StarRating(
-                          rating: componente.promedioCalificacion,
+                          rating: promedio,
                           size: 20,
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          '${componente.promedioCalificacion.toStringAsFixed(1)} ($textoResenas)',
+                          '${promedio.toStringAsFixed(1)} ($textoResenas)',
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: scheme.onSurfaceVariant,
                           ),

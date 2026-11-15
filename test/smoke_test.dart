@@ -98,6 +98,13 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.textContaining('EarlyAdopter'), findsNothing);
+
+    await tester.binding.handlePopRoute();
+    await tester.pumpAndSettle();
+    await tester.binding.handlePopRoute();
+    await tester.pumpAndSettle();
+
+    expect(find.text('4.0 (3)'), findsOneWidget);
   });
 
   testWidgets('muestra el perfil y cambia a resenas', (tester) async {

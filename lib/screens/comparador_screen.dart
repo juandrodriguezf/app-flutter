@@ -2,6 +2,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../data/sample_data.dart';
 import '../models/componente.dart';
+import '../models/resena.dart';
 import '../state/app_state.dart';
 
 const _comparisonLabels = <String>[
@@ -14,8 +15,8 @@ const _comparisonLabels = <String>[
   'Lanzamiento',
 ];
 
-double _valorNumerico(Componente componente) {
-  return componente.promedioCalificacion / componente.costo * 100;
+double _valorNumerico(Componente componente, double promedio) {
+  return promedio / componente.costo * 100;
 }
 
 class ComparadorScreen extends StatelessWidget {
@@ -91,6 +92,7 @@ class ComparadorScreen extends StatelessWidget {
                   : SingleChildScrollView(
                       child: _ComparadorTable(
                         componentes: componentes,
+                        hiddenReviewIds: appState.hiddenReviewIds,
                         onRemove: appState.removeComparison,
                         onClear: appState.clearComparison,
                       ),
@@ -155,16 +157,30 @@ class _ComparadorEmpty extends StatelessWidget {
 class _ComparadorTable extends StatelessWidget {
   const _ComparadorTable({
     required this.componentes,
+    required this.hiddenReviewIds,
     required this.onRemove,
     required this.onClear,
   });
 
   final List<Componente> componentes;
+  final Set<String> hiddenReviewIds;
   final ValueChanged<String> onRemove;
   final VoidCallback onClear;
 
   @override
   Widget build(BuildContext context) {
+    final visibles = <String, List<Resena>>{
+      for (final componente in componentes)
+        componente.id: resenasVisibles(componente.id, hiddenReviewIds),
+    };
+    final promedios = <String, double>{
+      for (final componente in componentes)
+        componente.id: promedioDeResenas(visibles[componente.id]!),
+    };
+    final totales = <String, int>{
+      for (final componente in componentes)
+        componente.id: visibles[componente.id]!.length,
+    };
     final bestPrice = componentes.reduce(
       (a, b) => a.costo <= b.costo ? a : b,
     );
@@ -172,15 +188,21 @@ class _ComparadorTable extends StatelessWidget {
       (a, b) => a.consumoEnergetico <= b.consumoEnergetico ? a : b,
     );
     final bestRating = componentes.reduce(
-      (a, b) => a.promedioCalificacion >= b.promedioCalificacion ? a : b,
+      (a, b) => promedios[a.id]! >= promedios[b.id]! ? a : b,
     );
     final conValor = componentes
-        .where((componente) => componente.costo > 0 && componente.totalResenas > 0)
+        .where(
+          (componente) => componente.costo > 0 && totales[componente.id]! > 0,
+        )
         .toList(growable: false);
     final bestValue = conValor.isEmpty
         ? null
         : conValor.reduce(
-            (a, b) => _valorNumerico(a) >= _valorNumerico(b) ? a : b,
+            (a, b) =>
+                _valorNumerico(a, promedios[a.id]!) >=
+                    _valorNumerico(b, promedios[b.id]!)
+                ? a
+                : b,
           );
     final columnasFijas = componentes.length > 2;
 
@@ -194,6 +216,8 @@ class _ComparadorTable extends StatelessWidget {
               width: 168,
               child: _ComponentColumn(
                 componente: componente,
+                promedio: promedios[componente.id]!,
+                totalResenas: totales[componente.id]!,
                 bestPriceId: bestPrice.id,
                 bestConsumptionId: bestConsumption.id,
                 bestRatingId: bestRating.id,
@@ -205,6 +229,8 @@ class _ComparadorTable extends StatelessWidget {
             Expanded(
               child: _ComponentColumn(
                 componente: componente,
+                promedio: promedios[componente.id]!,
+                totalResenas: totales[componente.id]!,
                 bestPriceId: bestPrice.id,
                 bestConsumptionId: bestConsumption.id,
                 bestRatingId: bestRating.id,
@@ -298,6 +324,8 @@ class _LabelColumn extends StatelessWidget {
 class _ComponentColumn extends StatelessWidget {
   const _ComponentColumn({
     required this.componente,
+    required this.promedio,
+    required this.totalResenas,
     required this.bestPriceId,
     required this.bestConsumptionId,
     required this.bestRatingId,
@@ -306,6 +334,8 @@ class _ComponentColumn extends StatelessWidget {
   });
 
   final Componente componente;
+  final double promedio;
+  final int totalResenas;
   final String bestPriceId;
   final String bestConsumptionId;
   final String bestRatingId;
@@ -386,14 +416,14 @@ class _ComponentColumn extends StatelessWidget {
           badge: 'Menor',
         ),
         _ValueCell(
-          value: '${componente.promedioCalificacion.toStringAsFixed(1)} ★',
+          value: '${promedio.toStringAsFixed(1)} ★',
           isBest: componente.id == bestRatingId,
           badge: 'Mejor',
         ),
-        _ValueCell(value: '${componente.totalResenas}'),
+        _ValueCell(value: '$totalResenas'),
         _ValueCell(
           value: componente.costo > 0
-              ? _valorNumerico(componente).toStringAsFixed(1)
+              ? _valorNumerico(componente, promedio).toStringAsFixed(1)
               : '—',
           isBest: esMejorValor,
           badge: 'Mejor',

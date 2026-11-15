@@ -84,7 +84,9 @@ class _FeedScreenState extends State<FeedScreen> {
     final appState = AppStateScope.of(context);
     final categorias = categoriasDeComponentes;
     final componentes = _componentesFiltrados;
-    final resenas = resenasDeSiguiendo;
+    final resenas = resenasDeSiguiendo
+        .where((resena) => !appState.isHidden(resena.id))
+        .toList(growable: false);
 
     return Scaffold(
       body: SafeArea(
@@ -435,6 +437,9 @@ class _FeedItemCard extends StatelessWidget {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     final appState = AppStateScope.of(context);
+    final visibles = resenasVisibles(componente.id, appState.hiddenReviewIds);
+    final totalResenas = visibles.length;
+    final promedio = promedioDeResenas(visibles);
     final isFavorite = appState.isFavorite(componente.id);
     final isComparing = appState.isComparing(componente.id);
     final canCompare = isComparing || appState.comparisonIds.length < 3;
@@ -529,12 +534,12 @@ class _FeedItemCard extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 StarRating(
-                                  rating: componente.promedioCalificacion,
+                                  rating: promedio,
                                   size: 12,
                                 ),
                                 const SizedBox(width: 4),
                                 Text(
-                                  '${componente.promedioCalificacion.toStringAsFixed(1)} (${componente.totalResenas})',
+                                  '${promedio.toStringAsFixed(1)} ($totalResenas)',
                                   style: theme.textTheme.labelSmall?.copyWith(
                                     color: scheme.onSurfaceVariant,
                                   ),

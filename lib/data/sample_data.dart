@@ -480,13 +480,22 @@ List<Resena> resenasDe(String componenteId) {
       .toList(growable: false);
 }
 
-double promedioDe(String componenteId) {
-  final resenas = resenasDe(componenteId);
+List<Resena> resenasVisibles(String componenteId, Set<String> hiddenIds) {
+  return resenasDe(componenteId)
+      .where((resena) => !hiddenIds.contains(resena.id))
+      .toList(growable: false);
+}
+
+double promedioDeResenas(List<Resena> resenas) {
   if (resenas.isEmpty) {
     return 0;
   }
   final total = resenas.fold<int>(0, (sum, resena) => sum + resena.calificacion);
   return total / resenas.length;
+}
+
+double promedioDe(String componenteId) {
+  return promedioDeResenas(resenasDe(componenteId));
 }
 
 int totalResenasDe(String componenteId) => resenasDe(componenteId).length;

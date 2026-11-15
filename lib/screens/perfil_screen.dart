@@ -2,6 +2,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../data/sample_data.dart';
 import '../models/resena.dart';
+import '../state/app_state.dart';
 import '../widgets/build_card.dart';
 import '../widgets/review_item_card.dart';
 
@@ -76,7 +77,10 @@ class _PerfilScreenState extends State<PerfilScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
-    final resenas = resenasDePerfil;
+    final appState = AppStateScope.of(context);
+    final resenas = resenasDePerfil
+        .where((resena) => !appState.isHidden(resena.id))
+        .toList(growable: false);
     final tabContent = _selectedTab == 0
         ? _buildEquipos()
         : _buildResenas(theme, scheme, resenas);
