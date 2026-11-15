@@ -137,4 +137,46 @@ void main() {
 
     expect(find.text('Ingresar'), findsOneWidget);
   });
+
+  testWidgets('compara componentes y limpia la seleccion', (tester) async {
+    await _login(tester);
+
+    await tester.ensureVisible(find.byTooltip('Comparar').first);
+    await tester.tap(find.byTooltip('Comparar').first);
+    await tester.pump();
+
+    await tester.ensureVisible(find.byTooltip('Comparar').first);
+    await tester.tap(find.byTooltip('Comparar').first);
+    await tester.pump();
+
+    await tester.tap(
+      find.descendant(
+        of: find.byType(NavigationBar),
+        matching: find.byIcon(Icons.compare_arrows),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text('Compara hasta 3 componentes lado a lado.'),
+      findsOneWidget,
+    );
+    expect(find.text('2/3'), findsOneWidget);
+    expect(find.text('Especificación'), findsOneWidget);
+    expect(find.textContaining('RTX 5060'), findsWidgets);
+    expect(find.text('Mejor'), findsWidgets);
+    expect(find.text('Limpiar comparación'), findsOneWidget);
+
+    await tester.ensureVisible(find.text('Limpiar comparación'));
+    await tester.tap(find.text('Limpiar comparación'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Sin componentes para comparar'), findsOneWidget);
+    expect(find.text('Volver al feed'), findsOneWidget);
+
+    await tester.tap(find.text('Volver al feed'));
+    await tester.pumpAndSettle();
+    expect(find.byIcon(Icons.dynamic_feed), findsOneWidget);
+    expect(find.text('Sin componentes para comparar'), findsNothing);
+  });
 }
