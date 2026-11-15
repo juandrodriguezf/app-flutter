@@ -570,6 +570,8 @@ class _FeedItemCard extends StatelessWidget {
                                 backgroundColor: scheme.surface,
                                 minimumSize: const Size(32, 32),
                                 padding: EdgeInsets.zero,
+                                tapTargetSize:
+                                    MaterialTapTargetSize.shrinkWrap,
                               ),
                             ),
                             const SizedBox(width: 4),
@@ -582,6 +584,8 @@ class _FeedItemCard extends StatelessWidget {
                                 backgroundColor: scheme.surface,
                                 minimumSize: const Size(32, 32),
                                 padding: EdgeInsets.zero,
+                                tapTargetSize:
+                                    MaterialTapTargetSize.shrinkWrap,
                               ),
                             ),
                             const SizedBox(width: 4),
@@ -608,6 +612,8 @@ class _FeedItemCard extends StatelessWidget {
                                     : scheme.surface,
                                 minimumSize: const Size(32, 32),
                                 padding: EdgeInsets.zero,
+                                tapTargetSize:
+                                    MaterialTapTargetSize.shrinkWrap,
                               ),
                             ),
                           ],
