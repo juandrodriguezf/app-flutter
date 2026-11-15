@@ -99,4 +99,42 @@ void main() {
 
     expect(find.textContaining('EarlyAdopter'), findsNothing);
   });
+
+  testWidgets('muestra el perfil y cambia a resenas', (tester) async {
+    await _login(tester);
+
+    await tester.tap(find.byIcon(Icons.person_outline));
+    await tester.pumpAndSettle();
+
+    expect(find.text('PERFIL'), findsOneWidget);
+    expect(find.text('Juan Rodríguez'), findsOneWidget);
+    expect(find.text('Editar perfil'), findsOneWidget);
+
+    await tester.drag(find.byType(ListView).last, const Offset(0, -250));
+    await tester.pumpAndSettle();
+    expect(find.text('EQUIPOS'), findsOneWidget);
+    expect(find.text('RESEÑAS'), findsOneWidget);
+    expect(find.text('Ryzen Boost X670'), findsWidgets);
+
+    await tester.tap(find.text('RESEÑAS'));
+    await tester.pumpAndSettle();
+
+    expect(
+      find.textContaining('Tarjeta gráfica GeForce RTX 5060'),
+      findsWidgets,
+    );
+    expect(find.textContaining('EarlyAdopter'), findsOneWidget);
+  });
+
+  testWidgets('cierra sesion desde el perfil', (tester) async {
+    await _login(tester);
+
+    await tester.tap(find.byIcon(Icons.person_outline));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byTooltip('Cerrar sesión'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Ingresar'), findsOneWidget);
+  });
 }
