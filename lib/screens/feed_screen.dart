@@ -1,4 +1,4 @@
-import 'package:material_ui/material_ui.dart';
+import 'package:flutter/material.dart';
 
 import '../data/sample_data.dart';
 import '../models/componente.dart';
@@ -41,12 +41,6 @@ class _FeedScreenState extends State<FeedScreen> {
   void dispose() {
     _searchController.dispose();
     super.dispose();
-  }
-
-  void _showMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
   }
 
   void _openDetalle(Componente componente) {
@@ -235,9 +229,7 @@ class _FeedScreenState extends State<FeedScreen> {
                     resena: resena,
                     componenteNombre:
                         componentePorId(resena.componenteId)?.nombre,
-                    onAuthorTap: () => _showMessage(
-                      'Perfil de ${resena.nombreUsuario} no disponible en la demo.',
-                    ),
+                    onAuthorTap: () {},
                   ),
                 ),
             ],

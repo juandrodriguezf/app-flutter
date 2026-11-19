@@ -1,6 +1,6 @@
 import 'package:flutter_app/main.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:flutter/material.dart';
 
 Future<void> _login(WidgetTester tester) async {
   await tester.pumpWidget(const RateMyPcApp());

@@ -1,4 +1,4 @@
-import 'package:material_ui/material_ui.dart';
+import 'package:flutter/material.dart';
 
 import '../main_shell.dart';
 
@@ -36,12 +36,6 @@ class _LoginScreenState extends State<LoginScreen> {
       suffixIcon: suffixIcon,
       errorText: errorText,
       border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-    );
-  }
-
-  void _showMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
     );
   }
 
@@ -190,9 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: 52,
                 child: OutlinedButton.icon(
-                  onPressed: () => _showMessage(
-                    'Inicio de sesión con Google no disponible en la demo.',
-                  ),
+                  onPressed: () {},
                   style: OutlinedButton.styleFrom(
                     foregroundColor: scheme.onSurface,
                   ),
@@ -214,9 +206,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () => _showMessage(
-                      'Registro no disponible en la demo.',
-                    ),
+                    onPressed: () {},
                     child: Text(
                       'Regístrate',
                       style: textTheme.bodyMedium?.copyWith(

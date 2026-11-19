@@ -1,7 +1,7 @@
 import 'package:flutter_app/screens/comparador_screen.dart';
 import 'package:flutter_app/state/app_state.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:flutter/material.dart';
 
 void main() {
   testWidgets('el comparador muestra su estado vacio', (tester) async {

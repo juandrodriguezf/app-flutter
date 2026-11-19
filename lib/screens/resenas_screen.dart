@@ -1,4 +1,4 @@
-import 'package:material_ui/material_ui.dart';
+import 'package:flutter/material.dart';
 
 import '../data/sample_data.dart';
 import '../models/componente.dart';
@@ -210,9 +210,7 @@ class _ResenasScreenState extends State<ResenasScreen> {
               child: SizedBox(
                 width: double.infinity,
                 child: FilledButton(
-                  onPressed: () => _showMessage(
-                    'Escritura de reseñas no disponible en la demo.',
-                  ),
+                  onPressed: () {},
                   style: FilledButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
@@ -241,13 +239,9 @@ class _ResenasScreenState extends State<ResenasScreen> {
                 (resena) => ReviewItemCard(
                   resena: resena,
                   canModify: resena.authorId == demoUserId,
-                  onEdit: () => _showMessage(
-                    'Edición de reseñas no disponible en la demo.',
-                  ),
+                  onEdit: () {},
                   onDelete: () => _confirmDelete(resena),
-                  onAuthorTap: () => _showMessage(
-                    'Perfil de ${resena.nombreUsuario} no disponible en la demo.',
-                  ),
+                  onAuthorTap: () {},
                 ),
               ),
           ],
@@ -277,12 +271,6 @@ class _ResenasScreenState extends State<ResenasScreen> {
           resenas.where((resena) => resena.calificacion == rating).length;
       return cantidad / resenas.length;
     });
-  }
-
-  void _showMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
   }
 
   Future<void> _confirmDelete(Resena resena) async {

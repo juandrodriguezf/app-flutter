@@ -1,4 +1,4 @@
-import 'package:material_ui/material_ui.dart';
+import 'package:flutter/material.dart';
 
 import '../data/sample_data.dart';
 import '../models/resena.dart';
@@ -17,12 +17,6 @@ class PerfilScreen extends StatefulWidget {
 
 class _PerfilScreenState extends State<PerfilScreen> {
   int _selectedTab = 0;
-
-  void _showMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
-  }
 
   List<Widget> _buildEquipos() {
     return List<Widget>.generate(
@@ -106,9 +100,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
                   ),
                   IconButton(
                     tooltip: 'Ajustes',
-                    onPressed: () => _showMessage(
-                      'Ajustes no disponibles en la demo.',
-                    ),
+                    onPressed: () {},
                     icon: const Icon(Icons.settings_outlined, size: 20),
                     style: IconButton.styleFrom(
                       foregroundColor: scheme.onSurfaceVariant,
@@ -131,9 +123,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
             ),
             const SizedBox(height: 16),
             GestureDetector(
-              onTap: () => _showMessage(
-                'Cambio de foto no disponible en la demo.',
-              ),
+              onTap: () {},
               child: Center(
                 child: Stack(
                   clipBehavior: Clip.none,
@@ -235,25 +225,19 @@ class _PerfilScreenState extends State<PerfilScreen> {
                             icon: Icons.star_border,
                             value: '${resenas.length}',
                             label: 'Reseñas',
-                            onTap: () => _showMessage(
-                              'Lista de reseñas no disponible en la demo.',
-                            ),
+                            onTap: () {},
                           ),
                           _StatItem(
                             icon: Icons.group_outlined,
                             value: '48',
                             label: 'Seguidores',
-                            onTap: () => _showMessage(
-                              'Lista de seguidores no disponible en la demo.',
-                            ),
+                            onTap: () {},
                           ),
                           _StatItem(
                             icon: Icons.person_add_alt_1_outlined,
                             value: '23',
                             label: 'Siguiendo',
-                            onTap: () => _showMessage(
-                              'Lista de seguidos no disponible en la demo.',
-                            ),
+                            onTap: () {},
                           ),
                         ],
                       ),
@@ -269,9 +253,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
                 width: double.infinity,
                 height: 56,
                 child: FilledButton(
-                  onPressed: () => _showMessage(
-                    'Edición de perfil no disponible en la demo.',
-                  ),
+                  onPressed: () {},
                   style: FilledButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),

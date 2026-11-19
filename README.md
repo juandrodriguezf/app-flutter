@@ -33,7 +33,7 @@ Perfil --pushAndRemoveUntil--> Login (cerrar sesión)
 
 - Flutter 3.50.0 (stable)
 - Dart 3.14.0
-- Material 3 mediante `material_ui`
+- Material 3 estándar de Flutter (`package:flutter/material.dart`)
 - Sin paquetes externos de estado, red o navegación
 
 ## Estructura

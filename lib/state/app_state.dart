@@ -1,4 +1,4 @@
-import 'package:material_ui/material_ui.dart';
+import 'package:flutter/material.dart';
 
 class AppState extends ChangeNotifier {
   final Set<String> _favoriteIds = <String>{};
