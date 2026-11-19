@@ -1,16 +1,41 @@
-import 'package:material_ui/material_ui.dart';
+import 'package:flutter/material.dart';
+
+import 'screens/login_screen.dart';
+import 'state/app_state.dart';
+import 'theme/app_theme.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(const RateMyPcApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class RateMyPcApp extends StatefulWidget {
+  const RateMyPcApp({super.key});
+
+  @override
+  State<RateMyPcApp> createState() => _RateMyPcAppState();
+}
+
+class _RateMyPcAppState extends State<RateMyPcApp> {
+  late final AppState _appState = AppState();
+
+  @override
+  void dispose() {
+    _appState.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(body: Center(child: Text('Hello World!'))),
+    return AppStateScope(
+      appState: _appState,
+      child: MaterialApp(
+        title: 'RateMyPc',
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.light,
+        darkTheme: AppTheme.dark,
+        themeMode: ThemeMode.system,
+        home: const LoginScreen(),
+      ),
     );
   }
 }
